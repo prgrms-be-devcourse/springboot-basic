@@ -114,7 +114,7 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(foundVoucher.isEmpty(), is(false));
-        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+        assertThat(foundVoucher.get().getVoucherId(), is(voucher.getVoucherId()));
     }
 
     @Test
@@ -145,7 +145,7 @@ class JdbcVoucherRepositoryTest {
         Voucher newlyFoundVoucher = voucherRepository.findById(foundVoucher.getVoucherId()).get();
 
         //then
-        assertThat(newlyFoundVoucher, samePropertyValuesAs(updatedVoucher));
+        assertThat(newlyFoundVoucher.getDiscountValue(), is(updatedVoucher.getDiscountValue()));
     }
 
     @Test

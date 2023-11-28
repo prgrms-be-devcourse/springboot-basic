@@ -1,5 +1,9 @@
 package com.programmers.vouchermanagement.customer.repository;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,16 +13,18 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.configuration.profiles.FileEnabledCondition;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.util.JSONFileManager;
 
 @Repository
-@Profile({"file", "test"})
+@Conditional(FileEnabledCondition.class)
 public class FileCustomerRepository implements CustomerRepository {
     private static final String CUSTOMER_ID_KEY = "customerId";
     private static final String NAME_KEY = "name";
@@ -35,24 +41,21 @@ public class FileCustomerRepository implements CustomerRepository {
 
     private final Function<Customer, HashMap<String, Object>> customerToObject = (customer) -> {
         HashMap<String, Object> customerObject = new HashMap<>();
-        customerObject.put("customerId", customer.getCustomerId().toString());
-        customerObject.put("name", customer.getName());
-        customerObject.put("customerType", customer.getCustomerType().name());
+        customerObject.put(CUSTOMER_ID_KEY, customer.getCustomerId().toString());
+        customerObject.put(NAME_KEY, customer.getName());
+        customerObject.put(CUSTOMER_TYPE_KEY, customer.getCustomerType().name());
         return customerObject;
     };
 
-    private final String blacklistFilePath;
     private final String customerFilePath;
     private final JSONFileManager<UUID, Customer> jsonFileManager;
     private final Map<UUID, Customer> customers;
 
     public FileCustomerRepository(FileProperties fileProperties, @Qualifier("customer") JSONFileManager<UUID, Customer> jsonFileManager) {
-        this.customerFilePath = fileProperties.getJSONCustomerFilePath();
-        this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
+        customerFilePath = fileProperties.getJSONCustomerFilePath();
         this.jsonFileManager = jsonFileManager;
-        this.customers = new HashMap<>();
-        loadCustomersFromJSON();
-        loadBlacklistToStorage();
+        this.customers = loadCustomersFromJSON();
+        loadBlacklist(fileProperties.getCSVCustomerFilePath());
     }
 
     @Override
@@ -98,19 +101,30 @@ public class FileCustomerRepository implements CustomerRepository {
         saveFile();
     }
 
-    @Override
-    public void loadBlacklistToStorage() {
-        List<Customer> blacklist = loadBlacklist(blacklistFilePath);
-        blacklist.forEach(customer -> customers.put(customer.getCustomerId(), customer));
-
-    }
-
-    private void loadCustomersFromJSON() {
-        List<Customer> loadedCustomer = jsonFileManager.loadFile(customerFilePath, objectToCustomer);
-        loadedCustomer.forEach(customer -> customers.put(customer.getCustomerId(), customer));
+    private Map<UUID, Customer> loadCustomersFromJSON() {
+        return jsonFileManager.loadFile(customerFilePath, objectToCustomer, Customer::getCustomerId);
     }
 
     private void saveFile() {
         jsonFileManager.saveFile(customerFilePath, customers, customerToObject);
+    }
+
+    private void loadBlacklist(String blacklistFilePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(blacklistFilePath))) {
+            br.readLine(); // skip the first line
+            String str;
+            while ((str = br.readLine()) != null) {
+                String[] line = str.split(COMMA_SEPARATOR);
+
+                UUID blackCustomerId = UUID.fromString(line[0]);
+                String name = line[1];
+
+                Customer blackCustomer = new Customer(blackCustomerId, name, CustomerType.BLACK);
+                customers.put(blackCustomerId, blackCustomer);
+
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
@@ -16,43 +18,15 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 class FormatterTest {
-    @Test
-    @DisplayName("바우처가 없을 때의 포매터 문구를 출력한다.")
-    void testFormatNoContent_Voucher() {
-        //given
-        String contentType = "voucher";
-
+    @ParameterizedTest(name = "전달된 {0}가 없을 때의 포메터 문구를 출력한다.")
+    @ValueSource(strings = {"voucher", "customer", "black customer"})
+    @DisplayName("컨텐츠가 없을 때의 포맷을 테스트한다.")
+    void testFormatNoContent(String contentType) {
         //when
         String formatted = Formatter.formatNoContent(contentType);
 
         //then
-        assertThat(formatted, containsString("There is no voucher stored yet!"));
-    }
-
-    @Test
-    @DisplayName("고객이 없을 때의 포매터 문구를 출력한다.")
-    void testFormatNoContent_Customer() {
-        //given
-        String contentType = "customer";
-
-        //when
-        String formatted = Formatter.formatNoContent(contentType);
-
-        //then
-        assertThat(formatted, containsString("There is no customer stored yet!"));
-    }
-
-    @Test
-    @DisplayName("블랙리스트가 없을 때의 포매터 문구를 출력한다.")
-    void testFormatNoContent_BlackCustomer() {
-        //given
-        String contentType = "black customer";
-
-        //when
-        String formatted = Formatter.formatNoContent(contentType);
-
-        //then
-        assertThat(formatted, containsString("There is no black customer stored yet!"));
+        assertThat(formatted, containsString("There is no " + contentType + " stored yet!"));
     }
 
     @Test

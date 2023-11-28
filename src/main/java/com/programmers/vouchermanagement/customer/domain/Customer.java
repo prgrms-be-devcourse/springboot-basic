@@ -5,10 +5,17 @@ import java.util.UUID;
 public class Customer {
     private static final int MAX_NAME_LENGTH = 25;
     private static final String NAME_LENGTH_EXCESSIVE = "Name is too long.";
+    private static final String NAME_BLANK = "Blank name is invalid.";
 
     private final UUID customerId;
     private final String name;
     private final CustomerType customerType;
+
+    public Customer() {
+        customerId = null;
+        name = null;
+        customerType = null;
+    }
 
     public Customer(UUID customerId, String name) {
         this(customerId, name, CustomerType.NORMAL);
@@ -38,8 +45,19 @@ public class Customer {
     }
 
     private void validateCustomerName(String name) {
+        validateNameExcessive(name);
+        validateNameBlank(name);
+    }
+
+    private void validateNameExcessive(String name) {
         if (name.length() > MAX_NAME_LENGTH) {
             throw new IllegalArgumentException(NAME_LENGTH_EXCESSIVE);
+        }
+    }
+
+    private void validateNameBlank(String name) {
+        if (name.isBlank()) {
+            throw new IllegalArgumentException(NAME_BLANK);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
 @Profile("dev")
@@ -30,6 +32,22 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return vouchers.values().stream().toList();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> voucher.isSameType(voucherType))
+                .toList();
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> voucher.isCreatedInBetween(startDateTime, endDateTime))
+                .toList();
     }
 
     @Override

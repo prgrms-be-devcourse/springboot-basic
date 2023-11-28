@@ -3,8 +3,13 @@ package com.programmers.vouchermanagement.consoleapp.menu;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class VoucherMenuTest {
 
@@ -21,34 +26,26 @@ class VoucherMenuTest {
         assertThat(menu, is(VoucherMenu.INCORRECT_MENU));
     }
 
-    @Test
+    @ParameterizedTest(name = "{0}을 받으면 {1}을 출력한다.")
+    @MethodSource("stringAndVoucherMenuProvider")
     @DisplayName("입력 받은 메뉴 번호에 맞는 바우처 메뉴를 반환한다.")
-    void testFindMenuSuccessful() {
-        //given
-        String createMenu = "1";
-        String listMenu = "2";
-        String searchMenu = "3";
-        String updateMenu = "4";
-        String deleteMenu = "5";
-        String grantMenu = "6";
-        String searchOwnerMenu = "7";
-
+    void testFindMenuSuccessful(String input, VoucherMenu expectedMenu) {
         //when
-        VoucherMenu create = VoucherMenu.findVoucherMenu(createMenu);
-        VoucherMenu list = VoucherMenu.findVoucherMenu(listMenu);
-        VoucherMenu search = VoucherMenu.findVoucherMenu(searchMenu);
-        VoucherMenu update = VoucherMenu.findVoucherMenu(updateMenu);
-        VoucherMenu delete = VoucherMenu.findVoucherMenu(deleteMenu);
-        VoucherMenu grant = VoucherMenu.findVoucherMenu(grantMenu);
-        VoucherMenu searchOwner = VoucherMenu.findVoucherMenu(searchOwnerMenu);
+        VoucherMenu menu = VoucherMenu.findVoucherMenu(input);
 
         //then
-        assertThat(create, is(VoucherMenu.CREATE));
-        assertThat(list, is(VoucherMenu.LIST));
-        assertThat(search, is(VoucherMenu.SEARCH));
-        assertThat(update, is(VoucherMenu.UPDATE));
-        assertThat(delete, is(VoucherMenu.DELETE));
-        assertThat(grant, is(VoucherMenu.GRANT));
-        assertThat(searchOwner, is(VoucherMenu.SEARCH_OWNER));
+        assertThat(menu, is(expectedMenu));
+    }
+
+    static Stream<Arguments> stringAndVoucherMenuProvider() {
+        return Stream.of(
+                Arguments.of("1", VoucherMenu.CREATE),
+                Arguments.of("2", VoucherMenu.LIST),
+                Arguments.of("3", VoucherMenu.SEARCH),
+                Arguments.of("4", VoucherMenu.UPDATE),
+                Arguments.of("5", VoucherMenu.DELETE),
+                Arguments.of("6", VoucherMenu.GRANT),
+                Arguments.of("7", VoucherMenu.SEARCH_OWNER)
+        );
     }
 }

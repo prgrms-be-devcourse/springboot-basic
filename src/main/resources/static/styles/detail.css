@@ -1,0 +1,53 @@
+.voucher-detail-container header, .customer-detail-container header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+    font-size: 1.4rem;
+}
+
+.back-to-list-button {
+    padding: 1.5rem 0.7rem;
+    font-weight: 600;
+}
+
+.customer-detail-box-wrapper, .voucher-detail-box-wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    border: 3px solid #556175;
+    border-radius: 10px;
+}
+
+.customer-detail-box, .voucher-detail-box {
+    width: 80%;
+    margin: 1.5rem auto;
+}
+
+.customer-detail-form, .voucher-detail-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.customer-detail-form div, .voucher-detail-form div {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.customer-detail-form .button-wrapper, .voucher-detail-form .button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.delete-form {
+    display: flex;
+    justify-content: center;
+}
+
+.delete-form button {
+    background-color: #e53c3c;
+    border: 2px solid #e53c3c;
+}

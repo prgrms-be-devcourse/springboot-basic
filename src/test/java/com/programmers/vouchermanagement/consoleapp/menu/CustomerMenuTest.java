@@ -3,8 +3,13 @@ package com.programmers.vouchermanagement.consoleapp.menu;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CustomerMenuTest {
 
@@ -21,37 +26,27 @@ class CustomerMenuTest {
         assertThat(menu, is(CustomerMenu.INCORRECT_MENU));
     }
 
-    @Test
+    @ParameterizedTest(name = "{0}번을 받으면 {1}을 반환한다.")
+    @MethodSource("stringAndCustomerMenuProvider")
     @DisplayName("입력 받은 메뉴 번호에 맞는 고객 메뉴를 반환한다.")
-    void testFindMenuSuccessful() {
-        //given
-        String createMenu = "1";
-        String listMenu = "2";
-        String searchMenu = "3";
-        String updateMenu = "4";
-        String deleteMenu = "5";
-        String blacklistMEnu = "6";
-        String searchVoucherMenu = "7";
-        String removeVoucherMenu = "8";
-
+    void testFindMenuSuccessful(String input, CustomerMenu expectedMenu) {
         //when
-        CustomerMenu create = CustomerMenu.findCustomerMenu(createMenu);
-        CustomerMenu list = CustomerMenu.findCustomerMenu(listMenu);
-        CustomerMenu search = CustomerMenu.findCustomerMenu(searchMenu);
-        CustomerMenu update = CustomerMenu.findCustomerMenu(updateMenu);
-        CustomerMenu delete = CustomerMenu.findCustomerMenu(deleteMenu);
-        CustomerMenu blacklist = CustomerMenu.findCustomerMenu(blacklistMEnu);
-        CustomerMenu searchVoucher = CustomerMenu.findCustomerMenu(searchVoucherMenu);
-        CustomerMenu removeVoucher = CustomerMenu.findCustomerMenu(removeVoucherMenu);
+        CustomerMenu customerMenu = CustomerMenu.findCustomerMenu(input);
 
         //then
-        assertThat(create, is(CustomerMenu.CREATE));
-        assertThat(list, is(CustomerMenu.LIST));
-        assertThat(search, is(CustomerMenu.SEARCH));
-        assertThat(update, is(CustomerMenu.UPDATE));
-        assertThat(delete, is(CustomerMenu.DELETE));
-        assertThat(blacklist, is(CustomerMenu.BLACKLIST));
-        assertThat(searchVoucher, is(CustomerMenu.SEARCH_VOUCHERS));
-        assertThat(removeVoucher, is(CustomerMenu.REMOVE_VOUCHER));
+        assertThat(customerMenu, is(expectedMenu));
+    }
+
+    static Stream<Arguments> stringAndCustomerMenuProvider() {
+        return Stream.of(
+                Arguments.of("1", CustomerMenu.CREATE),
+                Arguments.of("2", CustomerMenu.LIST),
+                Arguments.of("3", CustomerMenu.SEARCH),
+                Arguments.of("4", CustomerMenu.UPDATE),
+                Arguments.of("5", CustomerMenu.DELETE),
+                Arguments.of("6", CustomerMenu.BLACKLIST),
+                Arguments.of("7", CustomerMenu.SEARCH_VOUCHERS),
+                Arguments.of("8", CustomerMenu.REMOVE_VOUCHER)
+        );
     }
 }

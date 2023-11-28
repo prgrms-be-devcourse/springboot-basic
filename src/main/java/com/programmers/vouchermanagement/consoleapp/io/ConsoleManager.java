@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +13,6 @@ import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.util.Formatter;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
@@ -77,6 +75,7 @@ public class ConsoleManager {
     private static final String LISTING_OWNED_VOUCHERS_OF = "Listing vouchers that Customer %s has ...";
     private static final String GRANT_SUCCESSFUL = "Voucher (%s) is granted to Customer (%s).";
     private static final String VOUCHER_OWNER_BELOW = "The owner of Voucher %s is provided below:";
+    private static final String UNKNOWN_EXCEPTION_THROWN = "Failed to run the command. Unknown Exception is thrown.";
 
     private final TextIO textIO;
 
@@ -100,11 +99,9 @@ public class ConsoleManager {
     }
 
     public CreateVoucherRequest instructCreateVoucher() {
-        String voucherTypeCode = read(VOUCHER_TYPE_INPUT);
-        VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
-
+        String voucherType = read(VOUCHER_TYPE_INPUT);
         String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
-        BigDecimal discountValue = new BigDecimal(discountValueInput);
+        long discountValue = Long.parseLong(discountValueInput);
         return new CreateVoucherRequest(discountValue, voucherType);
     }
 
@@ -112,12 +109,10 @@ public class ConsoleManager {
         String voucherIdInput = read(ID_INPUT.formatted(CONTENT_VOUCHER));
         UUID voucherId = UUID.fromString(voucherIdInput);
 
-        String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
-        BigDecimal discountValue = new BigDecimal(discountValueInput);
+        String discountValue = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
 
         String voucherTypeCode = read(VOUCHER_TYPE_INPUT);
-        VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
-        return new UpdateVoucherRequest(voucherId, discountValue, voucherType);
+        return new UpdateVoucherRequest(voucherId, Long.parseLong(discountValue), voucherTypeCode);
     }
 
     public String instructCreateCustomer() {
@@ -152,7 +147,7 @@ public class ConsoleManager {
     }
 
     public void printSaveVoucherResult(VoucherResponse voucherResponse) {
-        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER, voucherResponse.getVoucherId()));
+        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER, voucherResponse.voucherId()));
     }
 
     public void printSaveCustomerResult(CustomerResponse customerResponse) {
@@ -220,6 +215,9 @@ public class ConsoleManager {
     }
 
     public void printException(RuntimeException e) {
+        if (e.getMessage() == null) {
+            print(UNKNOWN_EXCEPTION_THROWN);
+        }
         print(e.getMessage());
     }
 

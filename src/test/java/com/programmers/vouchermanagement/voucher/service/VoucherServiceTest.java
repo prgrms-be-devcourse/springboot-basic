@@ -53,13 +53,13 @@ class VoucherServiceTest {
     @DisplayName("고정 금액 바우처 생성에 성공한다.")
     void testFixedVoucherCreationSuccessful() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("100"), VoucherType.FIXED);
+        CreateVoucherRequest request = new CreateVoucherRequest(10000, "Fixed");
 
         //when
         VoucherResponse voucher = voucherService.create(request);
 
         //then
-        Voucher createdVoucher = voucherRepository.findById(voucher.getVoucherId())
+        Voucher createdVoucher = voucherRepository.findById(voucher.voucherId())
                 .get();
         assertThat(VoucherResponse.from(createdVoucher), samePropertyValuesAs(voucher));
     }
@@ -68,7 +68,7 @@ class VoucherServiceTest {
     @DisplayName("유효하지 않은 할인 값의 고정 금액 바우처 생성에 실패한다.")
     void testFixedVoucherCreationFailed_InvalidAmount() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.FIXED);
+        CreateVoucherRequest request = new CreateVoucherRequest(0, "1");
 
         //when
         assertThatThrownBy(() -> voucherService.create(request))
@@ -84,13 +84,13 @@ class VoucherServiceTest {
     @DisplayName("퍼센트 할인 바우처 생성에 성공한다.")
     void textPercentVoucherCreationSuccessful() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("50"), VoucherType.PERCENT);
+        CreateVoucherRequest request = new CreateVoucherRequest(50, "Percent");
 
         //when
         VoucherResponse voucher = voucherService.create(request);
 
         //then
-        Voucher createdVoucher = voucherRepository.findById(voucher.getVoucherId())
+        Voucher createdVoucher = voucherRepository.findById(voucher.voucherId())
                 .get();
         assertThat(VoucherResponse.from(createdVoucher), samePropertyValuesAs(voucher));
     }
@@ -99,8 +99,8 @@ class VoucherServiceTest {
     @DisplayName("유효하지 않은 할인율의 퍼센트 할인 바우처 생성에 실패한다.")
     void testPercentVoucherCreationFailed_InvalidPercent() {
         //given
-        CreateVoucherRequest firstRequest = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.PERCENT);
-        CreateVoucherRequest secondRequest = new CreateVoucherRequest(new BigDecimal("100.1"), VoucherType.PERCENT);
+        CreateVoucherRequest firstRequest = new CreateVoucherRequest(0, "Percent");
+        CreateVoucherRequest secondRequest = new CreateVoucherRequest(101, "Percent");
 
         //when
         assertThatThrownBy(() -> voucherService.create(firstRequest))
@@ -171,7 +171,7 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 바우처의 정보 수정을 실패한다.")
     void testUpdateVoucherFailed_NonExistentVoucher() {
         //given
-        UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), new BigDecimal(1000), VoucherType.FIXED);
+        UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), 1000, "Fixed");
 
         //when
         assertThatThrownBy(() -> voucherService.update(request))
@@ -189,7 +189,7 @@ class VoucherServiceTest {
         //given
         Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
         voucherRepository.save(voucher);
-        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), BigDecimal.ZERO, VoucherType.FIXED);
+        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), 0, "Fixed");
 
         //when
         assertThatThrownBy(() -> voucherService.update(request))
@@ -208,7 +208,7 @@ class VoucherServiceTest {
         //given
         Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
         voucherRepository.save(voucher);
-        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), BigDecimal.TEN, VoucherType.PERCENT);
+        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), 10, "Percent");
 
         //when
         VoucherResponse voucherResponse = voucherService.update(request);

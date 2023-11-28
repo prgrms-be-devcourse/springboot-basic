@@ -1,9 +1,12 @@
 package com.programmers.vouchermanagement.voucher.dto;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
-public record UpdateVoucherRequest(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
+public record UpdateVoucherRequest(
+        UUID voucherId,
+        @Min(value = 0, message = "Discount value must be greater than 0.") long discountValue,
+        @NotBlank(message = "Voucher type cannot be blank.") String voucherType) {
 }

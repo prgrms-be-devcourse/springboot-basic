@@ -1,0 +1,23 @@
+.main-container {
+    text-align: center;
+}
+
+.admin-header {
+    margin: 5rem;
+    font-size: 2rem;
+}
+
+.sub-header {
+    font-size: 1.5rem;
+    padding: 2rem 0;
+}
+
+.menu-container {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.menu-wrapper {
+    display: flex;
+    justify-content: space-between;
+}

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
+import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
 @SpringBootTest
@@ -20,6 +21,8 @@ import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 class MenuHandlerTest {
     @Autowired
     VoucherRepository voucherRepository;
+    @Autowired
+    CustomerRepository customerRepository;
     @Autowired
     MockTextTerminal textTerminal;
     @Autowired
@@ -108,17 +111,16 @@ class MenuHandlerTest {
     void testExecuteCustomerMenu_CorrectMenu() {
         //given
         textTerminal.getInputs()
-                .add("6");
+                .addAll(List.of("1", "tester"));
 
         //when
         menuHandler.handleMenu(Menu.CUSTOMER);
         String output = textTerminal.getOutput();
 
         //then
-        assertThat(output, containsString("Customer ID :"));
-        assertThat(output, containsString("Customer Name :"));
+        assertThat(output, containsString("successfully saved"));
 
         //clean
-        voucherRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 }
