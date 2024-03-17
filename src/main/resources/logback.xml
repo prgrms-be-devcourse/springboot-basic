@@ -21,7 +21,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.example.demo" level="debug">
+  <logger name="org.springframework" level="warn">
     <appender-ref ref="ROLLING_FILE" />
     <appender-ref ref="STDOUT" />
   </logger>

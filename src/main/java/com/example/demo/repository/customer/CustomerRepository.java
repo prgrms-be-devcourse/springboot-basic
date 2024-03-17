@@ -1,5 +1,6 @@
-package com.example.demo.domain.customer;
+package com.example.demo.repository.customer;
 
+import com.example.demo.domain.customer.Customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,4 +16,6 @@ public interface CustomerRepository {
     void updateName(UUID id, String name);
 
     void deleteById(UUID id);
+
+    boolean notExistById(UUID id);
 }

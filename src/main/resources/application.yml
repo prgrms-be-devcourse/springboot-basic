@@ -1,4 +1,13 @@
 spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     url: "jdbc:mysql://localhost/order_mgmt"
     username: "root"
@@ -12,4 +21,18 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
-    open-in-view: false
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always

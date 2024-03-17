@@ -1,36 +1,44 @@
 package com.example.demo.domain.voucher;
 
-import com.example.demo.util.VoucherType;
+import com.example.demo.enums.VoucherDiscountType;
+import com.example.demo.view.validate.NumberValidator;
 import java.util.UUID;
+import lombok.Builder;
+import lombok.Getter;
 
+
+@Getter
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID id;
-    private final double discountAmount;
+    private int discountAmount;
 
-    public FixedAmountVoucher(double discountAmount) {
+    @Builder
+    public FixedAmountVoucher(int discountAmount) {
         this.id = UUID.randomUUID();
+        NumberValidator.validateAmount(VoucherDiscountType.FIX, discountAmount);
+        this.discountAmount = discountAmount;
+    }
+
+    @Builder
+    public FixedAmountVoucher(UUID id, int discountAmount) {
+        this.id = id;
+        NumberValidator.validateAmount(VoucherDiscountType.FIX, discountAmount);
         this.discountAmount = discountAmount;
     }
 
     @Override
-    public double discount(double beforeAmount) {
-        double result = beforeAmount - discountAmount;
-        return result < 0 ? 0 : result;
+    public int discount(int beforeAmount) {
+        return Math.max(beforeAmount - discountAmount, 0);
     }
 
     @Override
-    public UUID getId() {
-        return this.id;
+    public VoucherDiscountType getVoucherType() {
+        return VoucherDiscountType.FIX;
     }
 
-    @Override
-    public double getDiscountAmount() {
-        return discountAmount;
-    }
-
-    @Override
-    public VoucherType getVoucherType() {
-        return VoucherType.FIX;
+    public void updateDiscountAmount(int discountAmount) {
+        NumberValidator.validateAmount(VoucherDiscountType.FIX, discountAmount);
+        this.discountAmount = discountAmount;
     }
 }

@@ -1,5 +1,8 @@
-package com.example.demo.domain.voucher;
+package com.example.demo.repository.voucher;
 
+import com.example.demo.domain.voucher.FixedAmountVoucher;
+import com.example.demo.domain.voucher.PercentDiscountVoucher;
+import com.example.demo.domain.voucher.Voucher;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.assertj.core.api.Assertions;
@@ -7,13 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class MemoryVoucherRepositoryTest {
+
+class VoucherMemoryRepositoryTest {
 
     private VoucherRepository voucherRepository;
 
     @BeforeEach
     void createVoucherRepository() {
-        voucherRepository = new MemoryVoucherRepository();
+        voucherRepository = new VoucherMemoryRepository();
     }
 
     @Test
@@ -62,6 +66,6 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.save(voucher4);
 
         // then
-        Assertions.assertThat(voucherRepository.findAll()).isEqualTo(vouchers);
+        Assertions.assertThat(voucherRepository.findAll()).usingRecursiveFieldByFieldElementComparator().isEqualTo(vouchers);
     }
 }
