@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<h1>Voucher List</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Voucher ID</th>
+        <th>Discount Policy</th>
+        <th>Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.voucherId}"></td>
+        <td th:text="${voucher.discountPolicy.policyStatus}" ></td>
+        <td>
+            <span th:text="${voucher.discountPolicy.amountOrPercent}"></span>
+            <span th:utext="${voucher.discountPolicy.policyStatus == voucher.getDiscountPolicy().getPolicyStatus().PERCENT ? '%' : '원'}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/voucher/voucher-home">
+    <button type="button" class="btn btn-secondary">Go To Main Page</button>
+</a>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

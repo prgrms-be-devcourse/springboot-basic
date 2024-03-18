@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Voucher</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<h1>Delete Voucher</h1>
+
+<form action="/voucher/delete" method="post">
+    <label for="voucherId">UUID:</label>
+    <input type="text" id="voucherId" name="voucherId" required>
+    <br>
+
+    <button type="submit" class="btn btn-danger">Delete Voucher</button>
+    <a href="/voucher/voucher-home">
+        <button type="button" class="btn btn-secondary">Go To Main Page</button>
+    </a>
+</form>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
