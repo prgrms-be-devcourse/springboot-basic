@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Wallet List</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<h1>Wallet List</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Customer Id</th>
+    <th>Voucher Id</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="wallet : ${wallets}">
+    <td th:text="${wallet.getCustomerId()}"></td>
+    <td th:text="${wallet.getVoucherId()}" ></td>
+  </tr>
+  </tbody>
+</table>
+
+<a href="/voucher/voucher-home">
+  <button type="button" class="btn btn-secondary">Go To Main Page</button>
+</a>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
