@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -46,16 +47,37 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<VoucherDto> findVouchers(VoucherType voucherType,
+                                         LocalDateTime startTime, LocalDateTime endTime) {
+        List<Voucher> vouchers = voucherRepository.findAll(voucherType, startTime, endTime);
+        return vouchers.stream()
+                .map(VoucherDto::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public VoucherDto findVoucher(UUID voucherId) {
+        Voucher voucher = findVoucherOrElseThrow(voucherId);
+
+        return VoucherDto.from(voucher);
+    }
+
     @Transactional
     public void deleteVoucher(UUID voucherId) {
+        Voucher voucher = findVoucherOrElseThrow(voucherId);
+
+        voucherRepository.deleteById(voucherId);
+        LOG.info(VoucherMessages.DELETE_VOUCHER, voucher);
+    }
+
+    private Voucher findVoucherOrElseThrow(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(VoucherErrorMessages.NO_SUCH_VOUCHER, voucherId);
                     LOG.warn(errorMessage);
                     return new NoSuchElementException(errorMessage);
                 });
-
-        voucherRepository.deleteById(voucherId);
-        LOG.info(VoucherMessages.DELETE_VOUCHER, voucher);
+        return voucher;
     }
 }

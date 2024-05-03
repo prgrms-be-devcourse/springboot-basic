@@ -19,7 +19,8 @@ public class VoucherDtoConverter implements VoucherVisitor {
         voucherDto = new VoucherDto(
                 voucher.getVoucherId(),
                 VoucherType.FIXED_AMOUNT,
-                voucher.getAmount());
+                voucher.getAmount(),
+                voucher.getCreatedAt());
     }
 
     @Override
@@ -27,7 +28,7 @@ public class VoucherDtoConverter implements VoucherVisitor {
         voucherDto = new VoucherDto(
                 voucher.getVoucherId(),
                 VoucherType.PERCENT,
-                voucher.getPercent()
-        );
+                voucher.getPercent(),
+                voucher.getCreatedAt());
     }
 }

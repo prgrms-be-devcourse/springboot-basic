@@ -27,8 +27,7 @@ class VoucherMemoryRepositoryTest {
     @DisplayName("성공: Voucher 던건 저장")
     void save() {
         //given
-        UUID voucherId = UUID.randomUUID();
-        Voucher fixedVoucher = createFixedVoucher(voucherId, 10);
+        Voucher fixedVoucher = createFixedVoucher();
 
         voucherRepository.save(fixedVoucher);
 
@@ -43,7 +42,7 @@ class VoucherMemoryRepositoryTest {
     @DisplayName("성공: voucher 단건 조회")
     void findById() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedVoucher = createFixedVoucher();
         voucherRepository.save(fixedVoucher);
 
         //when
@@ -59,7 +58,7 @@ class VoucherMemoryRepositoryTest {
     @DisplayName("성공: voucher 단건 조회 - 존재하지 않은 voucher")
     void findById_ButEmpty() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedVoucher = createFixedVoucher();
 
         //when
         Optional<Voucher> optionalVoucher = voucherRepository.findById(fixedVoucher.getVoucherId());
@@ -72,8 +71,8 @@ class VoucherMemoryRepositoryTest {
     @DisplayName("성공: Voucher 목록 조회")
     void findAll() {
         //given
-        Voucher fixedVoucherA = createFixedVoucher(UUID.randomUUID(), 10);
-        Voucher fixedVoucherB = createFixedVoucher(UUID.randomUUID(), 10);
+        Voucher fixedVoucherA = createFixedVoucher();
+        Voucher fixedVoucherB = createFixedVoucher();
         voucherRepository.save(fixedVoucherA);
         voucherRepository.save(fixedVoucherB);
 
@@ -88,7 +87,7 @@ class VoucherMemoryRepositoryTest {
     @DisplayName("성공: voucher 단건 삭제")
     void deleteById() {
         //given
-        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), 10);
+        Voucher fixedVoucher = createFixedVoucher();
         voucherRepository.save(fixedVoucher);
 
         //when

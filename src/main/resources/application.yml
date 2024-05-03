@@ -10,3 +10,8 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     url: jdbc:h2:mem:testdb
+
+server:
+  error:
+    whitelabel:
+      enabled: false

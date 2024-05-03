@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -49,7 +50,11 @@ public enum VoucherType {
     }
 
     public Voucher createVoucher(UUID voucherId, long amount) {
-        return voucherFactory.publishVoucher(voucherId, amount);
+        return voucherFactory.createVoucher(voucherId, amount);
+    }
+
+    public Voucher retrieveVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+        return voucherFactory.retrieveVoucher(voucherId, amount, createdAt);
     }
 
     public String getType() {

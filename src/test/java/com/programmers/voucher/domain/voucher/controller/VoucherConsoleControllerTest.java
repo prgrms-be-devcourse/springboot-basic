@@ -55,8 +55,8 @@ class VoucherConsoleControllerTest {
     @DisplayName("성공: voucher 목록 조회 요청")
     void findVouchers() {
         //given
-        VoucherDto fixedVoucher = createFixedVoucherDto(UUID.randomUUID(), 10);
-        VoucherDto percentVoucher = createPercentVoucherDto(UUID.randomUUID(), 10);
+        VoucherDto fixedVoucher = createFixedVoucherDto();
+        VoucherDto percentVoucher = createPercentVoucherDto();
         List<VoucherDto> vouchers = List.of(fixedVoucher, percentVoucher);
 
         given(voucherService.findVouchers()).willReturn(vouchers);
