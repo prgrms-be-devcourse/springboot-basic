@@ -14,11 +14,10 @@ class FixedAmountVoucherTest {
     void 정상입력값_바우처생성_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
         int amount = 5_000;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, amount);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -28,11 +27,10 @@ class FixedAmountVoucherTest {
     void 잘못된할인금액_바우처생성_예외발생() {
         // given
         UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
         int amount = 1_000_000_000;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -40,10 +38,8 @@ class FixedAmountVoucherTest {
     @CsvSource(value = {"10000,5000,5000", "300,50000,0"})
     void 물건금액할인금액_할인_할인된금액(Long price, int amount, Long expectedPrice) {
         // given
-        VoucherType voucherType = VoucherType.FIX;
         FixedAmountVoucher voucher = new FixedAmountVoucher(
                 UUID.randomUUID(),
-                voucherType,
                 amount);
 
         // when

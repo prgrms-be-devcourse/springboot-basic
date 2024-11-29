@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.customer;
 
+import com.programmers.springbootbasic.domain.customer.Repository.JdbcCustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,9 @@ class JdbcCustomerRepositoryTest {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
         // when
-        Optional<Customer> save = repository.save(customer);
-
+        UUID id = repository.save(customer);
         // then
-        assertThat(save).isPresent();
+        assertThat(id).isNotNull();
     }
 
     @Test
@@ -36,8 +36,22 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
         repository.save(customer);
         // when
-        Optional<Customer> byEmail = repository.findByEmail(customer.getEmail());
+        Optional<Customer> result = repository.findByEmail(customer.getEmail());
         // then
-        assertThat(byEmail).isPresent();
+        assertThat(result).isPresent();
+    }
+
+    @Test
+    @DisplayName("고객을 수정 할 수 있다")
+    void update() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
+        repository.save(customer);
+        Customer forUpdate = new Customer(customer.getCustomerId(), "update@gmail.com", "update");
+        // when
+        repository.update(forUpdate);
+        // then
+        Optional<Customer> updated = repository.findByEmail(forUpdate.getEmail());
+        assertThat(updated).get().usingRecursiveComparison().isEqualTo(forUpdate);
     }
 }

@@ -1,11 +1,12 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.domain.voucher.Repository.MemoryVoucherRepository;
+import com.programmers.springbootbasic.domain.voucher.Repository.VoucherRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,27 +23,26 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher = switch (voucherType) {
             case FIX -> {
                 int amount = 5_000;
-                yield new FixedAmountVoucher(voucherId, voucherType, amount);
+                yield new FixedAmountVoucher(voucherId, amount);
             }
             case PERCENT -> {
                 int percent = 30;
-                yield new PercentDiscountVoucher(voucherId, voucherType, percent);
+                yield new PercentDiscountVoucher(voucherId, percent);
             }
         };
-        Optional<Voucher> save = voucherRepository.save(voucher);
+        UUID id = voucherRepository.save(voucher);
         // then
-        assertThat(save).isPresent();
+        assertThat(id).isNotNull();
     }
 
     @Test
     void 바우처생성및저장_모든바우처가져오기_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
         int amount = 5_000;
 
-        Voucher voucher = new FixedAmountVoucher(voucherId, voucherType, amount);
-        Optional<Voucher> saved = voucherRepository.save(voucher);
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
+        voucherRepository.save(voucher);
 
         // when
         List<Voucher> all = voucherRepository.findAll();

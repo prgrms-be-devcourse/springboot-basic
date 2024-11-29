@@ -8,6 +8,7 @@ import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 public class ConsoleApplicationView {
@@ -53,6 +54,10 @@ public class ConsoleApplicationView {
         return Command.from(inputCommand);
     }
 
+    public void printNewLine() throws IOException {
+        console.printLine(BLANK);
+    }
+
     public void startCreation() throws IOException {
         console.printLine(CREATE_MESSAGE);
         printNewLine();
@@ -68,6 +73,13 @@ public class ConsoleApplicationView {
         return voucherType;
     }
 
+    private void checkInvalidType(String input) {
+        if (input.equals(PERCENT) || input.equals(FIX)) {
+            return;
+        }
+        throw new IllegalArgumentException(INVALID_VOUCHER_TYPE + input);
+    }
+
     public int inputAmountOrPercent() throws IOException {
         // 할인액 or 할인율 입력
         console.print(INPUT_AMOUNT_OR_PERCENT);
@@ -76,10 +88,14 @@ public class ConsoleApplicationView {
         return NumberParser.parseToInt(amountOrPercentInput);
     }
 
-    public void printCreatedVoucher(VoucherResponse response) throws IOException {
+    public void printCreatedVoucherId(UUID voucherId) throws IOException {
         console.printLine(CREATED_VOUCHER_INFO);
-        printVoucherResponse(response);
+        printVoucherId(voucherId);
         printNewLine();
+    }
+
+    private void printVoucherId(UUID voucherId) throws IOException {
+        console.printLine(String.valueOf(voucherId));
     }
 
     public void listVouchers(VoucherResponses responses) throws IOException {
@@ -101,16 +117,5 @@ public class ConsoleApplicationView {
     public void printErrorMessage(String message) throws IOException {
         console.printLine(message);
         printNewLine();
-    }
-
-    public void printNewLine() throws IOException {
-        console.printLine(BLANK);
-    }
-
-    private void checkInvalidType(String input) {
-        if (input.equals(PERCENT) || input.equals(FIX)) {
-            return;
-        }
-        throw new IllegalArgumentException(INVALID_VOUCHER_TYPE + input);
     }
 }
